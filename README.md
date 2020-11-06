@@ -5,9 +5,6 @@ Deadline: December 12, 2020
 
 -[] Pick a Dataset that can be generalized \
 -[] Implement linear search (O(N)) # need to train the model N times. \
-<<<<<<< HEAD
--[] Implement binary search (O(log(N))) # need to train the model N times.
-=======
 -[] Implement binary search (O(log(N))) # need to train the model N times. 
 >>>>>>> 567032e (Remove the redundant backwardslashes)
 -[] Determine trendline over two end points, determine the slope and determine side to get rid of \
