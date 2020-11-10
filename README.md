@@ -1,6 +1,23 @@
 # binary-search-in-neural-nets
 
 Drexel AI's Fall Term research project on efficiently searching for accurate neural net architectures
+## How to run
+
+With python version over 3.6(I'm using 3.7.1), do
+```
+pip install requirements.txt
+```
+Then run
+```
+python run.py
+```
+There are some arguments that can be used. For example, to change epoch size, you can do
+```
+python run.py --epoch=200
+```
+The list of arguments can be seen at binary_search_networksbinary_search_parser.py
+
+## Check list
 
 Deadline: December 12, 2020
 
