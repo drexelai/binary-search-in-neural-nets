@@ -1,9 +1,10 @@
 # binary-search-in-neural-nets
+
 Drexel AI's Fall Term research project on efficiently searching for accurate neural net architectures
 
 Deadline: December 12, 2020
 
--[] Pick a Dataset that can be generalized
+-[] Pick a Dataset that can be generalized -> Using titanic dataset courtesy of https://www.openml.org/d/40945
 -[] Implement linear search (O(N)) # need to train the model N times. 
 -[] Implement binary search (O(log(N))) # need to train the model N times. 
 -[] Determine trendline over two end points, determine the slope and determine side to get rid of
