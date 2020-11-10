@@ -17,6 +17,13 @@ python run.py --epoch=200
 ```
 The list of arguments can be seen at binary_search_networksbinary_search_parser.py
 
+## Current features
+
+- Gets data.
+- Preprocesses data.
+- Given input n, trains model. Prints out accuracy.
+- Tests model. Prints out accuracy.
+
 ## Check list
 
 Deadline: December 12, 2020
