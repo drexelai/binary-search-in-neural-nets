@@ -19,6 +19,7 @@ def binary_search_parser():
 	parser.add_argument('--batch_size', default=10, type=int, help='The batch size to train for.')
 	parser.add_argument('--epoch', default=150, type=int, help='The number of epochs to train for.')
 	parser.add_argument('--n', default=5, type=int, help='The dimension of the hidden layer.')
+	parser.add_argument('--no_early_stopping', default=False, action='store_true', help='Do not do early stopping.')
 	parser.add_argument('--test_size', default=0.2, type=float, help='The proportion of data used for tests. Between 0 and 1.')
 	parser.add_argument('--validation_split', default=0.2, type=float, help='Validation split proportion while training. Between 0 and 1.')
 	parser.add_argument('--verbose', default=1, type=int, help='Verbose for training. Either 0, 1, or 2.')
