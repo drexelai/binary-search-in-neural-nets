@@ -17,6 +17,7 @@ def arg_parser():
 def binary_search_parser():
 	parser = arg_parser()
 	parser.add_argument('--batch_size', default=10, type=int, help='The batch size to train for.')
+	parser.add_argument('--early_stopping_patience', default=3, type=int, help='Number of epochs with no improvement after which training will be stopped if early stopping is enabled.')
 	parser.add_argument('--epoch', default=150, type=int, help='The number of epochs to train for.')
 	parser.add_argument('--n', default=5, type=int, help='The dimension of the hidden layer.')
 	parser.add_argument('--no_early_stopping', default=False, action='store_true', help='Do not do early stopping.')
