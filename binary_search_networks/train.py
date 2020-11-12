@@ -10,7 +10,7 @@ def train(X, y, **args):
     train_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     # running the fitting
-    callback = EarlyStopping(monitor='loss', patience=3)
+    callback = EarlyStopping(monitor='loss', patience=args['early_stopping_patience'])
     if args['no_early_stopping']:
         train_model.fit(X, y, epochs=args['epoch'], batch_size=args['batch_size'], validation_split=args['validation_split'], verbose = args['verbose'])
     else:
