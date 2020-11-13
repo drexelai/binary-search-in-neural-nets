@@ -12,8 +12,9 @@ def train(X, y, **args):
     # running the fitting
     callback = EarlyStopping(monitor='loss', patience=args['early_stopping_patience'])
     if args['no_early_stopping']:
-        train_model.fit(X, y, epochs=args['epoch'], batch_size=args['batch_size'], validation_split=args['validation_split'], verbose = args['verbose'])
+        history = train_model.fit(X, y, epochs=args['epoch'], batch_size=args['batch_size'], validation_split=args['validation_split'], verbose = args['verbose'])
     else:
-        train_model.fit(X, y, epochs=args['epoch'], batch_size=args['batch_size'], validation_split=args['validation_split'], verbose = args['verbose'], callbacks=[callback])
+        history = train_model.fit(X, y, epochs=args['epoch'], batch_size=args['batch_size'], validation_split=args['validation_split'], verbose = args['verbose'], callbacks=[callback])
+    val_accuracy = history.history["val_accuracy"][-1]
     _, accuracy = train_model.evaluate(X, y)
-    return train_model, accuracy
+    return train_model, accuracy, val_accuracy
