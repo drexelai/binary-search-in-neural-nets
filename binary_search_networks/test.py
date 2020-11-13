@@ -16,7 +16,7 @@ def test(X, y, model, **args):
     # False positive (FP) = the number of times model incorrectly outputted 1
     # True negative (TN) = the number of times model correctly outputted 0
     # False negative (FN) = the number of times model incorrectly outputted 0
-    # Percision = TP/ (TP + FP)
+    # precision = TP/ (TP + FP)
     # Recall = TP / (TP + FN)
     # If model only outputs 0 for 99% of the time and it only outputs 1 once when it's really confident, percison=1
     # If model only outputs 1, recall=1
@@ -31,8 +31,8 @@ def test(X, y, model, **args):
     # TP FP
     # FN TN
     tn, fp, fn, tp = confusion_matrix(y, y_pred > args["threshold"]).ravel()
-    percision = tp / (tp+fp)
+    precision = tp / (tp+fp)
     recall = tp/ (tp + fn)
-    # F1 score is the harmonic mean of percision and recall
-    F1 = 2 * (percision * recall) / (percision + recall)
-    return accuracy, area_under_curve, percision, recall, F1
+    # F1 score is the harmonic mean of precision and recall
+    F1 = 2 * (precision * recall) / (precision + recall)
+    return accuracy, area_under_curve, precision, recall, F1
