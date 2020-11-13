@@ -56,7 +56,7 @@ def plot_slopes(mx, my, model):
 	Purpose: display the historically calculated slopes and visualize the linear regression through them.
 	Returns: None
 	'''
-	
+
 	plt.scatter(x=mx, y=my)
 	my_pred = model.predict(mx)
 	plt.plot(mx, my_pred, '--')
@@ -167,12 +167,16 @@ def binary_search(**args):
 			mid1.append(mid)
 			args['ni'] = mid
 			# Get posterior probability (and if its sufficient, check the secant line on the respective side)
-			if get_posterior_prob(gamma1, gamma2, mid1, m1, delta) > posterior_alpha and get_slope(**args) < mi: # check if the slopes in between?
-
-				if_found = True
-				print("Maximum accuracy found at index {}".format(mid))
-				# TODO: decide if delta is sufficiently small than we can stop the search
-				return mid
+			if get_posterior_prob(gamma1, gamma2, mid1, m1, delta) > posterior_alpha:
+				if get_slope(**args) < mi: # check if the slopes in between?
+					print("Maximum accuracy found at index {}".format(mid))
+					# TODO: decide if delta is sufficiently small than we can stop the search
+					return mid
+				else:
+					if delta > 3:
+						delta /= 2
+					elif delta < 6:
+						delta = 3
 			else:
 				gamma1 = mid # + 1?
 		# When we are on the right side of the maximum
@@ -182,12 +186,16 @@ def binary_search(**args):
 			args['nj'] = mid
 
 			# Get posterior probability (and if its sufficient, check the secant line on the respective side)
-			if get_posterior_prob(gamma1, gamma2, mid2, m2, delta) > posterior_alpha and get_slope(**args) > mi:
-
-				if_found = True
-				print("Maximum accuracy found at index {}".format(mid))
-				# TODO: decide if delta is sufficiently small than we can stop the search
-				return mid
+			if get_posterior_prob(gamma1, gamma2, mid2, m2, delta) > posterior_alpha:
+				if get_slope(**args) > mi:
+					print("Maximum accuracy found at index {}".format(mid))
+					# TODO: decide if delta is sufficiently small than we can stop the search
+					return mid
+				else:
+					if delta > 3:
+						delta /= 2
+					elif delta < 6:
+						delta = 3
 
 			else:
 				gamm2 = mid # - 1?
