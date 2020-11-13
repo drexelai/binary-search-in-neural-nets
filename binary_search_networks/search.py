@@ -130,7 +130,7 @@ def get_posterior_prob(gamma1, gamma2, mx, my, delta, sigma=0.5):
 
 	return likelihood * pior
 
-# TODO: given that delta is large (~50) and the posterior begins to increase, implement a way to decrease delta so that we come closer to the actual maximum
+
 def binary_search(**args):
 	'''
 	Purpose: find the maximum accuracy using binary search
@@ -172,6 +172,7 @@ def binary_search(**args):
 					print("Maximum accuracy found at index {}".format(mid))
 					# TODO: decide if delta is sufficiently small than we can stop the search
 					return mid
+				# if delta is large (~50) such that the posterior begins to increase, decrease delta
 				else:
 					if delta > 3:
 						delta /= 2
@@ -191,6 +192,7 @@ def binary_search(**args):
 					print("Maximum accuracy found at index {}".format(mid))
 					# TODO: decide if delta is sufficiently small than we can stop the search
 					return mid
+				# if delta is large (~50) such that the posterior begins to increase, decrease delta
 				else:
 					if delta > 3:
 						delta /= 2
