@@ -66,7 +66,6 @@ def get_slope(**args):
 	return (train_acc_i - train_acc_i) / (args['ni'] - args['nj'])
 
 
-# TODO: implement directionality i.e whether my contains positive slopes or negative slopes; this will simply introduce a 1 - P() for the likelihood if we are considering negative slopes (I think)
 def get_posterior_prob(gamma1, gamma2, mx, my, delta, sigma=0.5):
 	'''
 	Purpose: calculate the posterior probability according to the following beysian equation:
