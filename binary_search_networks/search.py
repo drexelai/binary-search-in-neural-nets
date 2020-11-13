@@ -40,13 +40,28 @@ def plot_output_space(a, b, accuracys):
 	x = [i for i in range(a, b + 1)]
 	y = accuracys
 	
-	# NODO: not sure if t is the correct parameter to select where the splines are broken up
+	# TODO: not sure if t is the correct parameter to select where the splines are broken up
 	tck = interpolate.splrep(x, y, s=0, t=[np.argmax(y)])
 	ynew = interpolate.splev(x, tck, der=0)
 	plt.scatter(x=x, y=y)
 	plt.plot(x, ynew, '--')
 	plt.xlabel("Number of hidden layer units")
 	plt.ylabel("Accuracy")
+
+	plt.show()
+
+
+def plot_slopes(mx, my, model):
+	'''
+	Purpose: display the historically calculated slopes and visualize the linear regression through them.
+	Returns: None
+	'''
+	
+	plt.scatter(x=mx, y=my)
+	my_pred = model.predict(mx)
+	plt.plot(mx, my_pred, '--')
+	plt.xlabel("Number of hidden layer units")
+	plt.ylabel("Slope of secant line")
 
 	plt.show()
 
@@ -96,7 +111,6 @@ def get_posterior_prob(gamma1, gamma2, mx, my, delta, sigma=0.5):
 		likelihood = norm(my[0], sigma).pdf(yi)
 
 	# If there are more than one recorded slopes, then model the probability using the linear regression relationship... this may be adapted to be a polynomial if it does not fit it well
-	# TODO: create a plot describing slope vs n so check whether linear regression model is sufficient
 	else:
 		x = np.array(mx).reshape((-1, 1))
 		y = np.array(my)
