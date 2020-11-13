@@ -15,5 +15,6 @@ def get_data(**args):
     imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
     X[['age', 'fare']] = imp_mean.fit_transform(X[['age', 'fare']])
     X = pd.get_dummies(X, columns=['sex', 'embarked'])
+    print(args)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=args['test_size'], random_state=42)
     return X_train, X_test, y_train, y_test

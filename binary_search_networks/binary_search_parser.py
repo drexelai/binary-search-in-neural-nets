@@ -24,4 +24,7 @@ def binary_search_parser():
 	parser.add_argument('--test_size', default=0.2, type=float, help='The proportion of data used for tests. Between 0 and 1.')
 	parser.add_argument('--validation_split', default=0.2, type=float, help='Validation split proportion while training. Between 0 and 1.')
 	parser.add_argument('--verbose', default=1, type=int, help='Verbose for training. Either 0, 1, or 2.')
+	parser.add_argument('--posterior_alpha', default=0.9, type=float, help='Probability threshold for sufficient evidence when evaluating posterior. Between 0 and 1')
+	parser.add_argument('--delta', default=3, type=int, help='The spacing between ni and nj when calculating the gradient of accuracy.')
+
 	return parser
