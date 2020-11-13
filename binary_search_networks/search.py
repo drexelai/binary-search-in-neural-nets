@@ -110,6 +110,9 @@ def get_posterior_prob(gamma1, gamma2, mx, my, delta, sigma=0.5):
 
 		likelihood = norm(y_pred, sigma).pdf(yi)
 
+	if yi < 0:
+		likelihood *= -1
+
 	pior = delta / (gamma2 - gamma1)
 
 	return likelihood * pior
