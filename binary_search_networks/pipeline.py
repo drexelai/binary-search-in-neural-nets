@@ -11,13 +11,6 @@ def run_pipe(**args):
     X_train, X_test, y_train, y_test = get_data(**args)
     model, train_accuracy, val_accuracy = train(X_train, y_train, **args)
     test_accuracy, area_under_curve, precision, recall, F1 = test(X_test, y_test, model, **args)
-    print("""Train Accuracy: {:.2f}%
-    Validation Accuracy: {:.2f}% 
-    Test Accuracy: {:.2f}% 
-    Precision: {:.2f}
-    Recall: {:.2f}
-    F1 Score: {:.2f}"""
-    .format(train_accuracy*100, val_accuracy*100, test_accuracy*100, precision, recall, F1))
     return train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1, model
 
 # Run pipe with parameter n and returns train and test accuracy
