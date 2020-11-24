@@ -9,6 +9,7 @@ import numpy as np
 from scipy import interpolate
 from scipy.stats import norm
 from sklearn.linear_model import LinearRegression
+from tqdm import tqdm
 
 def get_output_space(**args):
 
@@ -24,14 +25,14 @@ def get_output_space(**args):
 	accuracys = []
 	a = 1
 	b = args['n']
-	for ni in range(a, b + 1):
+	for ni in tqdm(range(a, b + 1)):
 		args['n'] = ni
-		train_acc, test_acc = run_pipe(**args)
-		accuracys.append(train_acc)
+		train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1, model = run_pipe(**args)
+		accuracys.append(val_accuracy)
+		model.save(f"{args['model_save_dir']}/{ni}")
 	return a, b, accuracys
 
-
-def plot_output_space(a, b, accuracys):
+def plot_output_space(a, b, accuracys, **args):
 	'''
 	Purpose: display the output space using a scatter plot and draw a cubic spline where t0 is at the maximum observed accuracy.
 	Returns: None
@@ -47,8 +48,7 @@ def plot_output_space(a, b, accuracys):
 	plt.plot(x, ynew, '--')
 	plt.xlabel("Number of hidden layer units")
 	plt.ylabel("Accuracy")
-
-	plt.show()
+	plt.savefig(f"{args['fig_save_dir']}/{args['fig_save_name']}")
 
 
 def plot_slopes(mx, my, model):

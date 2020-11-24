@@ -18,11 +18,11 @@ def run_pipe(**args):
     Recall: {:.2f}
     F1 Score: {:.2f}"""
     .format(train_accuracy*100, val_accuracy*100, test_accuracy*100, precision, recall, F1))
-    return train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1
+    return train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1, model
 
 # Run pipe with parameter n and returns train and test accuracy
 def run_model(n):
     args = parse_arguments([''])
     args['n'] = n
     train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1 = run_pipe(**args)
-    return train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1
+    return train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1, model
