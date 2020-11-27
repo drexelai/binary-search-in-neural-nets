@@ -8,7 +8,7 @@ from sklearn.impute import SimpleImputer
 import pandas as pd
 import numpy as np
 
-def get_data(**args):
+def get_titanic_data(**args):
     data = pd.read_csv('titanic.csv')
     X, y = data[['pclass', 'sex', 'age', 'sibsp', 'parch', 'fare', 'embarked']], data['survived']
     X[['age', 'fare']]=X[['age', 'fare']].replace('?', np.nan)
@@ -42,7 +42,7 @@ def get_data_churn_rate(**args):
     labelencoder_X_2 = LabelEncoder()#creating label encoder object no. 2 to encode product type name(index 2 in features)
     X[:, 2] = labelencoder_X_2.fit_transform(X[:, 2])#encoding product type from string to just 2 no.s 0,1(onprem,cloud) respectively
     #Now creating Dummy variables
-    onehotencoder = OneHotEncoder(categorical_features = [1])
+    onehotencoder = OneHotEncoder()
     X = onehotencoder.fit_transform(X).toarray()
     X = X[:, 1:]
 
