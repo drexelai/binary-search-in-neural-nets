@@ -2,6 +2,7 @@
 # Date: 2020/11/10
 # Purpose: Utility function folders
 from binary_search_networks.binary_search_parser import binary_search_parser 
+import numpy as np
 
 # Input: list of arguments
 # Output: dictionary of arguments
@@ -32,6 +33,22 @@ def linear_search(arr1,n):
             print(i)
     else:
         print("n value not found")
+
+# Input: Integer, n, number of points. Float, p, the proportional std of the point
+# Output: List of length n which is a distribution which is a cusp
+# Parses the arguments
+def get_cusp(n, p=0.0):
+    # For the cusp function, this function is y = x^2 for the first half of n and (x-n)^2 for the next half
+    output = []
+    for i in range(n):
+        if i < n // 2:
+            output.append(i**2)
+        else:
+            output.append((i-n)**2)
+    for i in range(n):
+        output[i] = np.random.normal(output[i], output[i]*p)
+    return output
+
 
 if __name__ == "__main__":
     arr1 = [34,23,5,6,7,11,2,23,8,94,40,61,23,5]
