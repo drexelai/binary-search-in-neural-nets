@@ -14,7 +14,7 @@ def main(args):
 	print(args)
 
 	a, b, accuracys = get_output_space(**args)
-	plot_output_space(a, b, accuracys, **args)
+	plot_output_space(a, b, accuracys)
 
 	#binary_search(**args)
 
