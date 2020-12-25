@@ -5,7 +5,7 @@ Drexel AI's Fall Term research project on efficiently searching for accurate neu
 
 With python version over 3.6(I'm using 3.7.1), do
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 Then run
 ```
