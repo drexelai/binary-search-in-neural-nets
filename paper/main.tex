@@ -1,0 +1,276 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.20 of 2017/10/04
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multirow}  %% For table
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{mathtools}
+\usepackage{subfig}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{breqn}
+\usepackage{hyperref}
+% \usepackage{amssymb,subfigure}
+\usepackage{amssymb}
+\usepackage[export]{adjustbox}
+\def\algbackskip{\hskip-\ALG@thistlm}
+\usepackage[font=small]{subfig}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+
+
+\begin{document}
+%
+\title{Towards Searching Efficient Architecture Sizes for Neural Networks in Binary Classification Problems}
+\author{1
+\and 2
+\and 3}
+%
+\institute{Drexel University, Philadelphia PA 19104, USA \\
+\email{\{1,2,3\}@drexel.edu}}
+\titlerunning{}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+%\author{First Author\inst{1}\orcidID{0000-1111-2222-3333} \and
+%Second Author\inst{2,3}\orcidID{1111-2222-3333-4444} \and
+%Third Author\inst{3}\orcidID{2222--3333-4444-5555}}
+%
+%\authorrunning{F. Author et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+%\institute{Princeton University, Princeton NJ 08544, USA %\and
+%Springer Heidelberg, Tiergartenstr. 17, 69121 Heidelberg, 5Germany
+%\email{lncs@springer.com}\\
+%\url{http://www.springer.com/gp/computer-science/lncs} %\and
+%ABC Institute, Rupert-Karls-University Heidelberg, %Heidelberg, Germany\\
+%\email{\{abc,lncs\}@uni-heidelberg.de}}
+%
+\maketitle              % typeset the header of the contribution
+%
+\begin{abstract}
+
+In recent years, deep neural networks have had great success in machine learning and pattern recognition. Architecture size for a neural network has long been treated as complete hyper-parameter with little study about it and yet this parameter contributes significantly to the success of any neural network. In this study, we optimize this hyper-parameter by studying different search algorithms to find a neural network architecture size that would give the highest accuracy. We specifically apply linear search and binary search on two well-known binary classification problems and compare the results. We also propose how to relax some of the assumptions regarding the dataset for these binary classification problems so that our solution can be generalized to any binary classification problem. By finding the optimal architecture size for any binary classification problem fast, we hope that our research creates a framework to optimize a model for any binary classification problem.
+
+\keywords{Binary Search, Architecture Size}
+\end{abstract}
+% 
+%
+%
+\section{Introduction}
+In recent decades, advances in deep neural networks (DNNs) have allowed computers to achieve or even exceed human-level performance on difficult image recognition tasks. 
+Breakthrough in many challenging applications, such as speech recognition (Hinton et al., 2012), image recognition (LeCun et al., 1998;
+Krizhevsky et al., 2012) and machine translation (Sutskever et al., 2014; Bahdanau et al., 2015; Wu
+et al., 2016) have been achieved due to designing architectures that are efficient for the task at hand as [https://arxiv.org/pdf/1611.01578.pdf] states.
+
+One such shift is for example in computer vision to predict objects in images by AlexNet (Krizhevsky
+et al., 2012), VGGNet (Simonyan \& Zisserman, 2014), GoogleNet (Szegedy et al., 2015), and
+ResNet (He et al., 2016a) which replaced the previously used architecture designs that were based on features such as SIFT (Lowe, 1999), and HOG (Dalal & Triggs, 2005). Although designing architectures for a specific problem and dataset enabled greater success, models and architectures got more complicated and started to require many hyper-parameters, which are parameters that user decides. These hyper-parameters such as number of hidden layers, number of nodes at each layer etc affects the accuracy, model training duration and architecture size directly, yet focus given to these hyper-parameters have been little. In this study, we search for architecture sizes that would give the highest accuracy and lowest training time for a given dataset. 
+
+Our aim is to look at the architecture size as a hyper-parameter and propose a framework of understanding to come up with a model architecture for a given problem. We specifically consider the number of hidden layers and the number of neurons at each layer for a given problem and we search to locate the the optimal number of units and number of layers in a deep neural network (DNN). We use binary search and linear search as a way of finding the optimal architecture size and study binary classification problems so that the output layer for all the datasets we look has only one neuron. We use Titanic dataset and a Customer Churn dataset to compare our findings. 
+
+
+\section{Related Work}
+
+Architecture size has long been considered a hyper-parameter that user picks randomly. Yet, this hyper-parameter impacts the model accuracy for a given problem significantly. Recent years have shown several studies hyper-parameters are optimized ((Bergstra et al., 2011; Bergstra & Bengio, 2012; Snoek et al., 2012; 2015; Saxena &
+Verbeek, 2016). Such studies have been limited to fixed-size models when searching for the optimal hyper-parameters. 
+
+[https://arxiv.org/abs/1611.01578] relaxed that fixed-space assumption searching for the optimal architecture size via reinforcement learning. [https://arxiv.org/pdf/1909.07378.pdf] has studied binary neural networks to only look at the neural networks that are compact. These studies have proposed new frameworks in determining the architecture size for neural networks in a systematic way rather than leaving such choice as completely hyper-parameter. However, current studies have taken different assumptions regarding the models they design when applying their approach. Wheng et al. added a constraint for the type of neural networks that they are studying so that they only studied binary neural networks when determining the optimal architecture size to give the highest accuracy. Binary neural networks are neural networks where the weights consist of only +1 and -1 values.
+The constraint that they added is close to what we added. However, we don't force binarization on the weights, we only force such binarization on the output layer since we are only tackling binary classification problems in this study.
+
+ 
+
+\subsection{subsection}
+
+
+\section{Methodology}
+
+Because of the fact that convolutional neural networks (CNN) require training and testing on typically a large data set, it becomes increasingly difficult and time consuming to determine optimal hyper-parameters. Although there are methods to search this hyper-parameter (search) space, none have successfully implemented a binary search method. 
+
+In this work, we define model evaluation as the end-to-end training and testing of a model architecture with a constant training and testing data set, which is specially outlined in Figure \autoref{datasetaummption}. 
+
+
+
+\subsection{Assumptions}
+
+
+\subsubsection{Network Architecture Assumption}
+We will be modeling our classification problem with an input layer, one hidden layer, and one output layer as shown below.
+Add figure later.
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/placeholder.png}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
+\subsubsection{Accuracy Distribution Assumption}
+
+Our first general assumption is that the accuracy maximum is uni-modal with respect to the number of units, $n$, in the hidden layer. This implies that there exists one maximum between $1$ and $n$. Furthermore, we assume that this distribution exists as a cusp  distribution where the slope of the distribution is monotonically increasing in magnitude as the maximum accuracy is approached form either side of the distribution.
+
+\subsubsection{Data Set Assumption} \label{datasetaummption}
+
+With respect to our data set, we assume that there will be $m$ number of inputs but only $1$ output unit in the output layer. As a result, we are simplifying this to only binary classification problems. We suspect that specifically our linear search method in Figure \autoref{linearsearch} will be more efficient for smaller input spaces, whereas our binary search method in Figure \autoref{binaryserach} will be more efficient for larger input spaces. It follows that we can explore the relative speeds of these two methods under our respective assumptions in order to determine a general threshold for when method should be used over the other.
+
+
+- Titanic Dataset
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/val_accuracy_titanic.png}
+    \caption{Titanic Accuracy plot}
+    \label{fig:titanic_accuracy}
+\end{figure}
+
+
+\subsection{Linear Search} \label{linearsearch}
+
+\subsection{Binary Search} \label{binaryserach}
+
+Given our assumptions, the premise of the binary search method is to implement a way to determine from which side we are approaching the cusp. Because of the fact that the slope of the distribution is monotonically increasing in magnitude in approaching the maximum accuracy, we model the where each index of the search is based on the sign of the recorded slope and the previously recorded slopes in the search. 
+
+In a normal binary search, one would use the $>$ and $<$ operators in order to remove parts of the search space. We perform this search in a similar way using slopes. Therefore, each comparison will take at least two model evaluations for each comparison. We introduce a dynamic variable $\delta$ that models the distance between each model evaluation taken at $n_i$ and $n_j$, which represent the current number of units on which we base our comparison and search. Figure \autoref{fig:binarysearch} models the relationship between these three variables in the search algorithm.
+
+We then define  $\gamma_L$ and $\gamma_U$ which represent the minimum and maximum number of units in our search space, respectively. These variables will be used to keep track of the lower and upper bounds of our search. As shown in Figure \autoref{fig:binarysearch0}, these two variables are set to $1$ and $n$ by default. If the search continues appropriately, these will approach the cusp from either side.
+
+Moreover, we define lists $m_L$ and $m_U$ for the previously recorded slopes for the lower and upper bound side of the maximum cusp, respectively. Initially, they are empty as displayed in Figure \autoref{fig:binarysearch0}. As the search advances, the previously recorded slopes will be appended to either list depending on which from side the slope was taken.
+
+After initializing the variables, the search begins by performing two model evaluations at $n_i$ and $n_j$ in Figure \autoref{fig:binarysearch0}. This would result in a negative slope, which indicates that the upper bound conditions are changed as shown in Figure \autoref{fig:binarysearch1}. In this figure, the upper bound $\gamma_U$ is set to the $n$ from which the slope was estimated and the slope is appended to the list containing previously recorded slopes on the right side of the cusp, $m_U$. As displayed in this figure, the search continues to the opposite side of the search space.
+
+\begin{figure} [H]
+     \centering
+     
+     \subfloat[Binary hyperparameter search. Initial conditions.]{\label{fig:binarysearch0}{\includegraphics[width=0.8\textwidth]{figures/binarysearch0.png}}}\hfill
+    \subfloat[Binary hyperparameter search. First comparison.]{\label{fig:binarysearch1}{\includegraphics[width=0.8\textwidth]{figures/binarysearch1.png}}}
+    \caption{Binary hyperparameter search.}
+    \label{fig:binarysearch}
+\end{figure}
+
+After each slope is calculated, we want to know whether there is enough evidence to suggest that there exists a maximum either at or near that recorded slope. We determine the probability of a maximum by evaluating a posterior shown in \autoref{posteriorequ}. This probability can be broken down into a likelihood in \autoref{likelihoodequ} and a prior in \autoref{priorequ}.
+
+
+
+4. Evaluate the following posterior for the probability of encountering the maximum accuracy in this distribution. 
+
+5. Determine if there is sufficient evidence for a maximum within $n_i$ and $n_j$ by evaluating
+
+Posterior:
+\begin{equation}\label{posteriorequ}
+    \centering
+    \&P(maximum \mid m, \gamma_{L}, \gamma_{U}, \delta) = P(y{=}m {\mid} maximum) * p(maximum {\mid} \gamma_{L}, \gamma_{U}, \delta)
+\end{equation}
+
+Likelihood:
+\begin{equation}\label{likelihoodequ}
+    P(y=m \mid maximum) = N(\hat{y} = \beta_{0} + \beta_{1} * x, \sigma) 
+\end{equation}
+
+Prior:
+\begin{equation}\label{priorequ}
+    P(maximum \mid \gamma_{L}, \gamma_{U}, \delta) = \frac{\delta}{\gamma_{U} - \gamma_{L}}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/binary_search_figure_1.png}
+    \setlength{\belowcaptionskip}{-15pt}
+    \caption{Binary search method. Temporary figure.}
+    \label{dnadigest}
+\end{figure}
+
+1. Run model 1 to $n$ to determine sufficient $\delta$ between $n_i$ and $n_j$ empirical. 
+
+2. Track $\gamma_L$ and $\gamma_U$ through binary search (starting with $\frac{\gamma_{U} - \gamma_{L}}{2}$) and pick $n_i$ and $n_j$ so that $\frac{\gamma_{U} - \gamma_{L}}{2}$ is a midpoint between them.
+
+3. In evaluating the slope resulting from $n_i$ and $n_j$, keep a list of $m_L$ and $m_U$ for the previously recorded slopes for the lower and upper bound, respectively.
+
+\begin{algorithm}[H]
+\caption{Measuring Jaccard Index with stride $\alpha$}\label{cnnscorestride}
+\begin{algorithmic}[1]
+\Procedure{$s_{\alpha}$}{}
+\State $\textit{n} \gets \text{number of highest-scoring k-mers to analyze}$
+\State $\textit{score} \gets 0$
+\State $\textit{act\_outputs} \gets \text{actual outputs}$
+\State $\textit{pred\_outputs} \gets \text{outputs from CNN}$
+\State $\textit{act\_indxs} \gets \text{indices that would sort }\textit{act\_outputs}$
+\State $\textit{pred\_indxs} \gets \text{indices that would sort } \textit{pred\_outputs}$ 
+\BState \emph{outerloop}:
+\For{$i$ := 1 to $n$} 
+\State $\textit{pred\_indx} \gets \textit{pred\_indxs(i)}$.
+\For{$j$ := 0 to $\alpha$} 
+\If {$\textit{pred\_indxs} \in \textit{act\_indxs} - j$}
+\State $score \gets score+1$.
+\State \textbf{goto} \emph{outerloop}.
+\EndIf
+\If {$\textit{pred\_indxs} \in \textit{act\_indxs} + j$}
+\State $score \gets score+1$.
+\State \textbf{goto} \emph{outerloop}.
+\EndIf
+\EndFor
+\EndFor
+\State $normalized\_score \gets score / n$.
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+\section{Experiments and Results}
+Isamu
+For our experiments,
+\subsection{Churn Model}
+-pipeline plot
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/1000_iterations_churn.png}
+    \setlength{\belowcaptionskip}{-15pt}
+    \caption{Accuracy vs Number of hidden layers}
+    \label{dnadigest}
+\end{figure}
+
+-plot when applied binary search 
+
+
+\subsection{Titanic Model}
+-pipeline plot
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/drexelai_binary_search_train_acc_titanic.png}
+    \setlength{\belowcaptionskip}{-15pt}
+    \caption{Accuracy vs Number of hidden layers}
+    \label{dnadigest}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/drexelai_binary_search_test_acc_titanic.png}
+    \setlength{\belowcaptionskip}{-15pt}
+    \caption{Accuracy vs Number of hidden layers}
+    \label{dnadigest}
+\end{figure}
+
+
+-plot when applied linear search 
+-plot when applied binary search 
+
+\section{Future Work}
+We hope to remove some of the relaxations by augmenting the data to fit a cusp etc.
+
+
+\section{Conclusion}
+
+
+%
+\bibliographystyle{splncs04}
+\bibliography{mybib}
+%
+
+\end{document}
