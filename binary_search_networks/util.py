@@ -37,6 +37,20 @@ def linear_search(arr1, n):
     else:
         print("n value not found")
 
+def find_max_element_index_and_value_in_array(arr):
+    """
+    @param: arr Input list (List)
+    @return: Index of the max element, Value of max element (Tuple)
+    """
+    if not arr: return
+    if len(arr) == 1: return 0, arr[0]
+    max_element = arr[0]
+    max_element_idx = 0
+    for i in range(len(arr)):
+        if max_element < arr[i]:
+            max_element = arr[i]
+            max_element_idx = i
+    return max_element_idx, max_element
 
 def generate_random_noise(amplitude):
     return (2*random.random()-1)*amplitude
