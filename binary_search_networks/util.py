@@ -5,6 +5,8 @@ from binary_search_parser import binary_search_parser
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import scipy.stats as stats
+
 # Input: list of arguments
 # Output: dictionary of arguments
 # Parses the arguments
@@ -15,15 +17,13 @@ import random
 #     return args
 
 
-"""
-@param arr1 : Input array
-@param n    : Target element
-@param None
-linear_search in an array
-"""
-
-
 def linear_search(arr1, n):
+    """
+    @param arr1 : Input array
+    @param n    : Target element
+    @param None
+    linear_search in an array
+    """
     arr2 = []
     duplicate = False
     for i in range(len(arr1)):
@@ -44,16 +44,14 @@ def generate_random_noise(amplitude):
 # Input: Integer, n, number of points. Float, p, the proportional std of the point
 # Output: List of length n which is a distribution which is a cusp
 # Parses the arguments
-
-
 def get_cusp(n, a=1, x=0.5, gamma=0.0, p=2):
     """
-    n: number of points
-    a: amplitude
-    x: ratio of the peak in the range
-    gamma: randomness
-    p: power
-    y = a(i-nx)^p + noise(gamma) where i from 0 to n
+    @param: n: number of points
+    @param: a: amplitude
+    @param: x: ratio of the peak in the range
+    @param: gamma: randomness
+    @param: p: power
+    @returns: y = a(i-nx)^p + noise(gamma) where i from 0 to n
     """
     if not (0 < x < 1):
         return
@@ -70,6 +68,23 @@ def get_cusp(n, a=1, x=0.5, gamma=0.0, p=2):
     return output
 
 
+def calc_z_score_for_each_value(data):
+    return stats.zscore(data)
+
+
+def generate_normal_distribution(mu, sigma, number_of_points=1000):
+    s = np.random.normal(mu, sigma, number_of_points)
+    # verify mean and std
+    assert abs(mu - np.mean(s)) == 0.0
+    assert abs(sigma - np.std(s)) == 0.0
+    return s
+
+
+def calculate_mean_and_std_given_two_z_scores(obs1, z1, obs2, z2):
+    # https://math.stackexchange.com/questions/2304263/finding-mean-and-standard-deviation-of-normal-distribution-given-2-points
+    return (obs1*z2-obs1*z1) / (z2-z1)
+
+
 if __name__ == "__main__":
     # arr1 = [34,23,5,6,7,11,2,23,8,94,40,61,23,5]
     # print(arr1)
@@ -79,5 +94,4 @@ if __name__ == "__main__":
     plt.plot(y1)
     # y2 = get_cusp(n=100000, a=0.7, gamma=0.01, x=0.7, p=.7)
     # plt.plot(y1)
-
     plt.show()
