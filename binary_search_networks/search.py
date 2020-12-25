@@ -1,4 +1,4 @@
-# Author: Ethan Moyer
+# Author: Ethan Moyer, Isamu Isozaki
 # Date: 2020/11/10
 # Purpose: perform binary search from 1 to n
 
@@ -6,34 +6,47 @@ from binary_search_networks.pipeline import run_pipe
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from scipy import interpolate
 from scipy.stats import norm
 from sklearn.linear_model import LinearRegression
+from tqdm import tqdm
 
 def get_output_space(**args):
 
 	'''
 	Purpose: 
 	... retrieve the output space of the model from 1 to end.
+	... save models and experiment data
 	Returns: 
 	... a: low bound of n
 	... b: high bound of n
 	... accuracy: a list of recorded accuracies at each recorded ni
 	'''
-
-	accuracys = []
+	columns = [
+		'train_accuracy', 
+		'val_accuracy', 
+		'test_accuracy', 
+		'area_under_curve', 
+		'precision',
+		'recall',
+		'F1'
+	]
+	exp_data = pd.DataFrame(columns = columns)
 	a = 1
 	b = args['n']
-	for ni in range(a, b + 1):
+	for ni in tqdm(range(a, b + 1)):
 		args['n'] = ni
-		train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1 = run_pipe(**args)
-		accuracys.append(train_accuracy)
-	return a, b, accuracys
+		*run_data, model = run_pipe(**args)
+		append_data = pd.DataFrame([run_data], columns=columns)
+		exp_data = exp_data.append(append_data)
+		model.save(f"{args['model_save_dir']}/{ni}")
+	exp_data.to_csv(args['exp_data_save'])
+	return a, b, exp_data['val_accuracy'].values
 
-
-def plot_output_space(a, b, accuracys):
+def plot_output_space(a, b, accuracys, **args):
 	'''
-	Purpose: display the output space using a scatter plot and draw a cubic spline where t0 is at the maximum observed accuracy.
+	Purpose: save the output space using a scatter plot and draw a cubic spline where t0 is at the maximum observed accuracy.
 	Returns: None
 	'''
 
@@ -47,8 +60,7 @@ def plot_output_space(a, b, accuracys):
 	plt.plot(x, ynew, '--')
 	plt.xlabel("Number of hidden layer units")
 	plt.ylabel("Accuracy")
-
-	plt.show()
+	plt.savefig(f"{args['fig_save_dir']}/{args['fig_save_name']}")
 
 
 def plot_slopes(mx, my, model):
