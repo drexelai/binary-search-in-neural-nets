@@ -37,7 +37,7 @@ def linear_search(arr1, n):
     else:
         print("n value not found")
 
-def find_max_element_index_and_value_in_array(arr):
+ def find_max_element_index_and_value_in_array(arr):
     """
     @param: arr Input list (List)
     @return: Index of the max element, Value of max element (Tuple)
