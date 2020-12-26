@@ -1,7 +1,7 @@
 # Author: Isamu Isozaki, Shesh Dave
 # Date: 2020/11/10
 # Purpose: Utility function folders
-from binary_search_parser import binary_search_parser
+from binary_search_networks.binary_search_parser import binary_search_parser
 import numpy as np
 import matplotlib.pyplot as plt
 import random

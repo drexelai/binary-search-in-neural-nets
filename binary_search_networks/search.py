@@ -2,7 +2,7 @@
 # Date: 2020/11/10
 # Purpose: perform binary search from 1 to n
 
-from binary_search_networks.pipeline import run_pipe
+from binary_search_networks.pipeline import run_pipe, run_model
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -75,11 +75,13 @@ def get_slope(**args):
 	'''
 
 	args['n'] = args['ni']
-	train_acc_i, test_acc_i = run_pipe(**args)
+	_, val_acc_i, _, _, _, _, _ = run_pipe(**args)
 	args['n'] = args['nj']
-	train_acc_i, test_acc_i = run_pipe(**args)
-	return (train_acc_i - train_acc_i) / (args['ni'] - args['nj'])
+	_, val_acc_j, _, _, _, _, _ = run_pipe(**args)
+	return (val_acc_i - val_acc_j) / (args['ni'] - args['nj'])
 
+def get_dist_slope(dist, **args):
+	return (dist[args['ni']]-dist[args['nj']]) / (args['ni'] - args['nj'])
 
 def get_posterior_prob(gamma1, gamma2, mx, my, delta, sigma=0.5):
 	'''
