@@ -8,11 +8,11 @@ import random
 # Input: list of arguments
 # Output: dictionary of arguments
 # Parses the arguments
-# def parse_arguments(args):
-#     arg_parser = binary_search_parser()
-#     args, _ = arg_parser.parse_known_args(args)
-#     args = vars(args)
-#     return args
+def parse_arguments(args):
+    arg_parser = binary_search_parser()
+    args, _ = arg_parser.parse_known_args(args)
+    args = vars(args)
+    return args
 
 
 """

@@ -3,6 +3,8 @@
 # Purpose: perform binary search from 1 to n
 
 from binary_search_networks.pipeline import run_pipe, run_model
+from binary_search_networks.util import get_cusp
+
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -73,7 +75,9 @@ def get_slope(**args):
 	Returns:
 	... slope: the recorded slope between the accuracy at ni & nj separated by delta
 	'''
-
+	if args['use_cusp_dist']:
+		dist = get_cusp(args['n'])
+		return get_dist_slope(dist, **args)
 	args['n'] = args['ni']
 	_, val_acc_i, _, _, _, _, _ = run_pipe(**args)
 	args['n'] = args['nj']
