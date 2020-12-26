@@ -16,9 +16,9 @@ def main(args):
 	a, b, accuracys = get_output_space(**args)
 	plot_output_space(a, b, accuracys)
 
-	#binary_search(**args)
+	# binary_search(**args)
 
-	#run_pipe(**args)
+	# run_pipe(**args)
 
 
 

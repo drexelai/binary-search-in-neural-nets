@@ -1,7 +1,7 @@
 # Author: Isamu Isozaki, Shesh Dave
 # Date: 2020/11/10
 # Purpose: Utility function folders
-from binary_search_parser import binary_search_parser
+from binary_search_networks.binary_search_parser import binary_search_parser
 import numpy as np
 import matplotlib.pyplot as plt
 import random
@@ -10,11 +10,11 @@ import scipy.stats as stats
 # Input: list of arguments
 # Output: dictionary of arguments
 # Parses the arguments
-# def parse_arguments(args):
-#     arg_parser = binary_search_parser()
-#     args, _ = arg_parser.parse_known_args(args)
-#     args = vars(args)
-#     return args
+def parse_arguments(args):
+    arg_parser = binary_search_parser()
+    args, _ = arg_parser.parse_known_args(args)
+    args = vars(args)
+    return args
 
 
 def linear_search(arr1, n):
@@ -37,7 +37,7 @@ def linear_search(arr1, n):
     else:
         print("n value not found")
 
- def find_max_element_index_and_value_in_array(arr):
+def find_max_element_index_and_value_in_array(arr):
     """
     @param: arr Input list (List)
     @return: Index of the max element, Value of max element (Tuple)

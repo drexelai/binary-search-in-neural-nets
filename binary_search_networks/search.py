@@ -37,6 +37,7 @@ def get_output_space(**args):
 	b = args['n']
 	for ni in tqdm(range(a, b + 1)):
 		args['n'] = ni
+		print(args)
 		*run_data, model = run_pipe(**args)
 		append_data = pd.DataFrame([run_data], columns=columns)
 		exp_data = exp_data.append(append_data)
