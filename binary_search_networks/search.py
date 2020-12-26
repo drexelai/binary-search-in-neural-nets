@@ -87,6 +87,17 @@ def get_slope(**args):
 def get_dist_slope(dist, **args):
 	return (dist[args['ni']]-dist[args['nj']]) / (args['ni'] - args['nj'])
 
+# Problems:
+# 1. 1/yi causes infinity to happen when yi is 0
+# 2. Getting the normal distribution +std vertically doesn't measure how possible the value
+# is when put in a normal distribution. If this was a case, a line with a larger slope, higher B_1
+# will always have a higher prob. What I think is better is to get the distance of the points from the line by 
+# doing
+# a. Projection of the points onto the line
+# b. Deducting the projections from the points to get the vectors which are perpendicular to the
+# line denoting the distance
+# c. Using b to calculate std and normal distribution prob
+
 def get_posterior_prob(gamma1, gamma2, mx, my, delta, sigma=0.5):
 	'''
 	Purpose: calculate the posterior probability according to the following beysian equation:
