@@ -30,4 +30,9 @@ def binary_search_parser():
 	parser.add_argument('--use_titanic_data', default=False, action='store_true', help='Use titanic data.')
 	parser.add_argument('--validation_split', default=0.2, type=float, help='Validation split proportion while training. Between 0 and 1.')
 	parser.add_argument('--verbose', default=1, type=int, help='Verbose for training. Either 0, 1, or 2.')
+	parser.add_argument('--exp_data_save', default="exp_data.csv", type=str, help='The location the experiment data is saved')
+	parser.add_argument('--fig_save_dir', default="figures", type=str, help='The location where plots will be saved')
+	parser.add_argument('--fig_save_name', default="figure", type=str, help='The name of the figure that is saved')
+	parser.add_argument('--model_save_dir', default="models", type=str, help='The location where models will be saved')
+
 	return parser
