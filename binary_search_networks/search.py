@@ -3,6 +3,7 @@
 # Purpose: perform binary search from 1 to n
 
 from binary_search_networks.pipeline import run_pipe
+from binary_search_networks.util import get_cusp
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -76,7 +77,7 @@ def get_slope(**args):
 	... slope: the recorded slope between the accuracy at ni & nj separated by delta
 	'''
 	if args['use_cusp_dist']:
-		dist = get_cusp(args['n'])
+		dist = get_cusp(args['n'], seed=42)
 		return get_dist_slope(dist, **args)
 	args['n'] = args['ni']
 	_, val_acc_i, _, _, _, _, _ = run_pipe(**args)
@@ -98,7 +99,7 @@ def get_dist_slope(dist, **args):
 # line denoting the distance
 # c. Using b to calculate std and normal distribution prob
 
-def get_posterior_prob(gamma1, gamma2, mx, my, delta, sigma=0.5):
+def get_posterior_prob(gamma1, gamma2, mid, m, delta, sigma=0.5):
 	'''
 	Purpose: calculate the posterior probability according to the following beysian equation:
 		P(𝑚𝑎𝑥𝑖𝑚𝑢𝑚│𝑚_𝐿, m_𝑈, 𝛾_𝐿, 𝛾_𝑈, Δ) = P(𝑚_𝐿, 𝑚_𝑈│𝑚𝑎𝑥𝑖𝑚𝑢𝑚) * P(𝑚𝑎𝑥𝑖𝑚𝑢𝑚|𝛾_𝐿, 𝛾_𝑈, Δ)
@@ -110,33 +111,39 @@ def get_posterior_prob(gamma1, gamma2, mx, my, delta, sigma=0.5):
 	... posterior: the product of the likelihood and prior which represents the probability that a maximum is between ni & nj
 	'''
 
-	# Compare the most recent slope to the past recorded slopes
-	xi = mx[-1]
-	yi = my[-1]
 
-	del mx[-1]
-	del my[-1]
+
+	# Compare the most recent slope to the past recorded slopes
+
+	xi = mid[-1]
+	yi = m[-1]
+
+	del mid[-1]
+	del m[-1]
 
 	# Have to introduce three separate cases depending on the size of the previously recorded slopes
 
 	# If there are not previously recorded slopes, model the probability if 1/yi because we expect a low probability of a nonzero slope but a high probability of a nonzero slope
-	if len(mx) == 0:
+
+	if len(m) == 0:
+		if abs(yi) == 0:
+			return 0
 		likelihood = norm(1/yi, sigma).pdf(1/yi)
 
 	# If there is only one previously recorded slope, model the probability simply with the first recorded slope and a general sigma
-	elif len(mx) == 1:
-		likelihood = norm(my[0], sigma).pdf(yi)
+	elif len(m) == 1:
+		likelihood = norm(m[0], sigma).pdf(yi)
 
 	# If there are more than one recorded slopes, then model the probability using the linear regression relationship... this may be adapted to be a polynomial if it does not fit it well
 	else:
-		x = np.array(mx).reshape((-1, 1))
-		y = np.array(my)
+		x = np.array(mid).reshape((-1, 1))
+		y = np.array(m)
 
 		model = LinearRegression().fit(x, y)
-		my_pred = model.predict(mx)
-		sigma = np.std(my_pred, my)
+		my_pred = model.predict(mid)
+		sigma = np.std(my_pred, m)
 
-		y_pred = model.predict(xi)
+		y_pred = model.predict(mid)
 
 		likelihood = norm(y_pred, sigma).pdf(yi)
 
@@ -144,6 +151,8 @@ def get_posterior_prob(gamma1, gamma2, mx, my, delta, sigma=0.5):
 		likelihood *= -1
 
 	pior = delta / (gamma2 - gamma1)
+
+
 
 	return likelihood * pior
 
@@ -155,6 +164,8 @@ def binary_search(**args):
 	... mid: the found maximum accuracy
 	'''
 
+	# NOTE: TEMP
+	itereration = 0
 	# Gamma1 & gamma2 keep track of the current recorded upper and lower bounds to the number of units.
 	gamma1 = 1
 	gamma2 = args['n']
@@ -169,22 +180,25 @@ def binary_search(**args):
 
 	mid1 = []
 	mid2 = []
-	print(gamma1)
-	print(gamma2)
 	while gamma1 <= gamma2:
+		print("Gamma L: {}".format(gamma1))
+		print("Gamma U: {}".format(gamma2))
+		print("Delta U: {}".format(delta))
 		mid = (gamma1 + gamma2)//2
 		args['ni'] = mid - delta//2
 		args['nj'] = mid + delta//2
 
 		mi = get_slope(**args)
-
+		print("Slope: {}".format(mi))
 		# When we are on the left side of the maximum
 		if mi > 0:
 			m1.append(mi)
 			mid1.append(mid)
 			args['ni'] = mid
 			# Get posterior probability (and if its sufficient, check the secant line on the respective side)
-			if get_posterior_prob(gamma1, gamma2, mid1, m1, delta) > posterior_alpha:
+			posterior_prob = get_posterior_prob(gamma1, gamma2, mid1, m1, delta)
+			print("probability: {}".format(posterior_prob))
+			if posterior_prob > posterior_alpha:
 				if get_slope(**args) < mi: # check if the slopes in between?
 					print("Maximum accuracy found at index {}".format(mid))
 					# TODO: decide if delta is sufficiently small than we can stop the search
@@ -197,6 +211,8 @@ def binary_search(**args):
 						delta = 3
 			else:
 				gamma1 = mid # + 1?
+				
+				
 		# When we are on the right side of the maximum
 		else:
 			m2.append(mi)
@@ -204,7 +220,9 @@ def binary_search(**args):
 			args['nj'] = mid
 
 			# Get posterior probability (and if its sufficient, check the secant line on the respective side)
-			if get_posterior_prob(gamma1, gamma2, mid2, m2, delta) > posterior_alpha:
+			posterior_prob = get_posterior_prob(gamma1, gamma2, mid2, m2, delta) 
+			print("probability: {}".format(posterior_prob))
+			if posterior_prob > posterior_alpha:
 				if get_slope(**args) > mi:
 					print("Maximum accuracy found at index {}".format(mid))
 					# TODO: decide if delta is sufficiently small than we can stop the search
@@ -217,7 +235,11 @@ def binary_search(**args):
 						delta = 3
 
 			else:
-				gamm2 = mid # - 1?
+				gamma2 = mid # - 1?
+		itereration += 1
+		if itereration == 6:
+			exit(0)
+		print("-"*20)
 			
 
 

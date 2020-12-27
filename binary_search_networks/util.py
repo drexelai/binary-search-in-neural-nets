@@ -39,6 +39,7 @@ def linear_search(arr1, n):
 
 
 def generate_random_noise(amplitude):
+    random.seed(42)
     return (2*random.random()-1)*amplitude
 
 # Input: Integer, n, number of points. Float, p, the proportional std of the point
@@ -46,7 +47,7 @@ def generate_random_noise(amplitude):
 # Parses the arguments
 
 
-def get_cusp(n, a=1, x=0.5, gamma=0.0, p=2):
+def get_cusp(n, a=1, x=0.5, gamma=0.0, p=2, seed=42):
     """
     n: number of points
     a: amplitude
@@ -62,11 +63,9 @@ def get_cusp(n, a=1, x=0.5, gamma=0.0, p=2):
     # first half
     for i in range(int(n*x)):
         output.append(a*i**p + generate_random_noise(gamma))
-
     # first half
     for i in range(int(n*x), n):
         output.append(a*((n-i)*x/(1-x))**p + generate_random_noise(gamma))
-
     return output
 
 
