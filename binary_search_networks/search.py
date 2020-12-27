@@ -11,7 +11,6 @@ from scipy.stats import norm
 from sklearn.linear_model import LinearRegression
 
 def get_output_space(**args):
-
 	'''
 	Purpose: 
 	... retrieve the output space of the model from 1 to end.
@@ -27,7 +26,7 @@ def get_output_space(**args):
 	for ni in range(a, b + 1):
 		args['n'] = ni
 		train_acc, test_acc = run_pipe(**args)
-		accuracys.append(train_acc)
+		accuracys.append(test_acc)
 	return a, b, accuracys
 
 
@@ -67,7 +66,6 @@ def plot_slopes(mx, my, model):
 
 
 def get_slope(**args):
-
 	'''
 	Purpose: given ni & nj in args, run the pipeline for both and calculate the slope of their respective train accuracies.
 	Returns:

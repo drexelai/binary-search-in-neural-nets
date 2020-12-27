@@ -1,0 +1,13 @@
+
+
+def sierpinski(x, y, s):
+    if s > 10:
+        turtle.setpos(x, y)
+        turtle.pendown()
+        for i in range(3):
+            turtle.forward(s)
+            turtle.left(120)
+        turtle.penup()
+        sierpinski(x, y, s/2)
+        sierpinski(x + s/2, y, s/2)
+        sierpinski(x + s/4, y + s * 3 ** (1/2) / 4, s/2)
