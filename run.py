@@ -10,7 +10,6 @@ from binary_search_networks.search import binary_search, get_output_space, plot_
 import sys
 def main(args):
 	args = parse_arguments(args)
-
 	# a, b, accuracys = get_output_space(**args)
 	# plot_output_space(a, b, accuracys)
 	binary_search(**args)

@@ -147,12 +147,10 @@ def get_posterior_prob(gamma1, gamma2, mid, m, delta, sigma=0.5):
 
 		likelihood = norm(y_pred, sigma).pdf(yi)
 
-	if yi < 0:
-		likelihood *= -1
-
 	pior = delta / (gamma2 - gamma1)
 
-
+	print("Likelihood: {}".format(likelihood))
+	print("Pior: {}".format(pior))
 
 	return likelihood * pior
 
@@ -183,7 +181,6 @@ def binary_search(**args):
 	while gamma1 <= gamma2:
 		print("Gamma L: {}".format(gamma1))
 		print("Gamma U: {}".format(gamma2))
-		print("Delta U: {}".format(delta))
 		mid = (gamma1 + gamma2)//2
 		args['ni'] = mid - delta//2
 		args['nj'] = mid + delta//2
@@ -237,7 +234,7 @@ def binary_search(**args):
 			else:
 				gamma2 = mid # - 1?
 		itereration += 1
-		if itereration == 6:
+		if itereration == 9:
 			exit(0)
 		print("-"*20)
 			

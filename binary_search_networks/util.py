@@ -47,7 +47,7 @@ def generate_random_noise(amplitude):
 # Parses the arguments
 
 
-def get_cusp(n, a=1, x=0.5, gamma=0.0, p=2, seed=42):
+def get_cusp(n, a=1, x=0.7, gamma=0.0, p=2, seed=42):
     """
     n: number of points
     a: amplitude

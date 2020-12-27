@@ -34,5 +34,6 @@ def binary_search_parser():
 	parser.add_argument('--fig_save_dir', default="figures", type=str, help='The location where plots will be saved')
 	parser.add_argument('--fig_save_name', default="figure", type=str, help='The name of the figure that is saved')
 	parser.add_argument('--model_save_dir', default="models", type=str, help='The location where models will be saved')
-
+	parser.add_argument('--delta_prop', default=0.1, type=float, help='The deltalt proprotion of delta for any range between gamma1 and gamma2.')
+	parser.add_argument('--x', default=0.7, type=float, help='Cusp maximum off set.')
 	return parser
