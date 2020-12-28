@@ -12,8 +12,21 @@ def main(args):
 	args = parse_arguments(args)
 	# a, b, accuracys = get_output_space(**args)
 	# plot_output_space(a, b, accuracys)
-	binary_search(**args)
 
+	differences = []
+	itererations = []
+
+	for i in range(100):
+		print(i)
+		difference, itereration = binary_search(**args)
+		print(difference, itereration)
+		differences.append(difference)
+		itererations.append(itereration)
+
+	print(differences)
+	print(itererations)
+	print(sum(differences) / len(differences))
+	print(sum(itererations) / len(itererations))
 	#run_pipe(**args)
 
 

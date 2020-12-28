@@ -15,9 +15,6 @@ from tqdm import tqdm
 import random
 
 # Add function to set seed
-
-seed = 42
-#seed = random.random()
 #random.seed(seed)
 
 def get_output_space(**args):
@@ -84,7 +81,7 @@ def get_slope(**args):
 	... slope: the recorded slope between the accuracy at ni & nj separated by delta
 	'''
 	if args['use_cusp_dist']:
-		dist = get_cusp(args['n'], x=0.3, seed=seed)
+		dist = get_cusp(args['n'], x=MID, seed=seed)
 		return get_dist_slope(dist, **args)
 	args['n'] = args['ni']
 	_, val_acc_i, _, _, _, _, _ = run_pipe(**args)
@@ -131,17 +128,15 @@ def get_posterior_prob(gamma1, gamma2, mid, m, delta, side, sigma=0.5):
 	# If there are not previously recorded slopes, model the probability if 1/yi because we expect a low probability of a nonzero slope but a high probability of a nonzero slope
 
 	if len(m) == 0:
-		if abs(yi) == 0:
-			return 0
-		likelihood = norm(1/yi, sigma).pdf(1/yi)
+		likelihood = 0.5
 
 	# If there is only one previously recorded slope, model the probability simply with the first recorded slope and a general sigma
 	elif len(m) == 1:
-		likelihood = norm(m[0], sigma).pdf(yi)
+		likelihood = norm(m[0], sigma).cdf(yi)
 
 	# If there are more than one recorded slopes, then model the probability using the linear regression relationship... this may be adapted to be a polynomial if it does not fit it well
 	# TODO: add in a condition for when the length is 2 (because sigma will be 0) and then else (>2)
-	elif len(m) == 2:
+	else:	
 		x = np.array([mid]).reshape((-1, 1))
 		y = np.array(m)
 
@@ -150,22 +145,8 @@ def get_posterior_prob(gamma1, gamma2, mid, m, delta, side, sigma=0.5):
 		my_pred = model.predict(np.array([xi]).reshape((-1, 1)))
 		sigma = np.std(y_pred)
 		likelihood = norm(my_pred, sigma).cdf(yi)
-		if side == 1:
-			likelihood = 1 - likelihood
-	else:
-		x = np.array([mid]).reshape((-1, 1))
-		y = np.array(m)
 
-		model = LinearRegression().fit(x, y)
-		y_pred = model.predict(x)
-		my_pred = model.predict(np.array([xi]).reshape((-1, 1)))
-		sigma = np.std(y_pred)
-		# TODO: ADD IN BETTER CALCULATION FOR SIGMA
-		print(my_pred)
-		print(sigma)
-		print(yi)
-		likelihood = norm(my_pred, sigma).cdf(yi)
-		if side == 1:
+	if side == 1:
 			likelihood = 1 - likelihood
 
 	pior = delta / (gamma2 - gamma1)
@@ -185,6 +166,10 @@ def binary_search(**args):
 	Returns:
 	... mid: the found maximum accuracy
 	'''
+	global MID
+	global seed
+	MID = random.random()
+	seed = random.random()
 
 	# NOTE: TEMP
 	itereration = 0
@@ -196,14 +181,14 @@ def binary_search(**args):
 
 	# This is a threshold for when there is sufficient evidence that there is a maximum between ni & nj
 	prior = delta / (gamma2 - gamma1)
-	posterior_alpha = 0.95 * prior #args['posterior_alpha']
+	posterior_alpha = 0.9 * prior #args['posterior_alpha']
 
 	m1 = []
 	m2 = []
 
 	mid1 = []
 	mid2 = []
-	while gamma1 <= gamma2:
+	while gamma1 <= gamma2 and itereration < 10:
 		#if len(mid1) > 0:
 		#	if mid1.count(mid1[-1]) < 1:	break
 		print("Gamma L: {}".format(gamma1))
@@ -229,15 +214,16 @@ def binary_search(**args):
 			# Get posterior probability (and if its sufficient, check the secant line on the respective side)
 			posterior_prob = get_posterior_prob(1, args['n'], mid1, m1, delta, side=1)
 			print("probability: {}".format(posterior_prob))
+			print("Itererations", itereration)
 			if posterior_prob > posterior_alpha:
 				#if get_slope(**args) < mi: # check if the slopes in between?
 				print("Maximum accuracy found at index {}".format(mid))
 					# TODO: decide if delta is sufficiently small than we can stop the search
-				y = get_cusp(args['n'], x=0.3, seed=42)
-				print(np.argmax(y))
-				plt.plot(y)
-				plt.show()
-				return mid
+				y = get_cusp(args['n'], x=MID, seed=seed)
+				actual_max = np.argmax(y)
+				#plt.plot(y)
+				#plt.show()
+				return abs(mid - actual_max), itereration
 				# if delta is large (~50) such that the posterior begins to increase, decrease delta
 				#else:
 				#	if delta > 3:
@@ -263,11 +249,12 @@ def binary_search(**args):
 				#if get_slope(**args) > mi:
 				print("Maximum accuracy found at index {}".format(mid))
 					# TODO: decide if delta is sufficiently small than we can stop the search
-				y = get_cusp(args['n'], x=0.3, seed=42)
-				print(np.argmax(y))
-				plt.plot(y)
-				plt.show()
-				return mid
+				y = get_cusp(args['n'], x=MID, seed=seed)
+				actual_max = np.argmax(y)
+				#print(np.argmax(y))
+				#plt.plot(y)
+				#plt.show()
+				return abs(mid - actual_max), itereration
 				# if delta is large (~50) such that the posterior begins to increase, decrease delta
 				#else:
 				#	if delta > 3:
@@ -277,13 +264,17 @@ def binary_search(**args):
 
 			else:
 				gamma2 = mid # - 1?
+		y = get_cusp(args['n'], x=MID, seed=seed)
+		actual_max = np.argmax(y)
+		if gamma2 - gamma1 < delta:
+			return abs(actual_max - mid), itereration
+
 		itereration += 1
-		if itereration == 8:
-			y = get_cusp(args['n'], x=0.3, seed=42)
-			print(np.argmax(y))
-			plt.plot(y)
-			plt.show()
-			exit(0)
+		
+		print("Actual Maximum:", )
+		#	plt.plot(y)
+		#	plt.show()
+		#	exit(0)
 		print("-"*20)
 	
 
