@@ -10,13 +10,14 @@ from binary_search_networks.search import binary_search, get_output_space, plot_
 import sys
 def main(args):
 	args = parse_arguments(args)
-	# a, b, accuracys = get_output_space(**args)
-	# plot_output_space(a, b, accuracys)
-
+	a, b, accuracys = get_output_space(**args)
+	plot_output_space(a, b, accuracys)
+	exit(0)
+	
 	differences = []
 	itererations = []
 
-	for i in range(100):
+	for i in range(1000):
 		print(i)
 		difference, itereration = binary_search(**args)
 		print(difference, itereration)
