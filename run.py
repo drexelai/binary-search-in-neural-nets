@@ -11,9 +11,12 @@ import sys
 def main(args):
 	args = parse_arguments(args)
 	a, b, accuracys = get_output_space(**args)
-	plot_output_space(a, b, accuracys)
+	args['a'] = a
+	args['b'] = b
+	args['accuracys'] = accuracys
+	plot_output_space(**args)
 	exit(0)
-	
+
 	differences = []
 	itererations = []
 

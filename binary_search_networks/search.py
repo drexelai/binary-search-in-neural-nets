@@ -39,14 +39,14 @@ def get_output_space(**args):
 	return a, b, accuracys
 
 
-def plot_output_space(a, b, accuracys):
+def plot_output_space(**args):
 	'''
 	Purpose: display the output space using a scatter plot and draw a cubic spline where t0 is at the maximum observed accuracy.
 	Returns: None
 	'''
 
-	x = [i for i in range(a, b + 1)]
-	y = accuracys
+	x = [i for i in range(args['a'], args['b'] + 1)]
+	y = args['accuracys']
 	
 	# TODO: not sure if t is the correct parameter to select where the splines are broken up
 	tck = interpolate.splrep(x, y, s=0, t=[np.argmax(y)])
