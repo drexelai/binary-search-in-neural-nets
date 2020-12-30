@@ -35,7 +35,7 @@ def get_output_space(**args):
 	for ni in range(a, b + 1):
 		args['n'] = ni
 		train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1, model = run_pipe(**args)
-		accuracys.append(train_accuracy)
+		accuracys.append(test_accuracy)
 	return a, b, accuracys
 
 
