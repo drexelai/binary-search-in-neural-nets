@@ -18,6 +18,7 @@ def binary_search_parser():
 	parser = arg_parser()
 	parser.add_argument('--batch_size', default=10, type=int, help='The batch size to train for.')
 	parser.add_argument('--delta', default=50, type=int, help='The spacing between ni and nj when calculating the gradient of accuracy.')
+	parser.add_argument('--dropout_rate', default=.5, type=float, help='The dropout rate before the final layer.')
 	parser.add_argument('--early_stopping_patience', default=3, type=int, help='Number of epochs with no improvement after which training will be stopped if early stopping is enabled.')
 	parser.add_argument('--epoch', default=150, type=int, help='The number of epochs to train for.')
 	parser.add_argument('--exp_data_save', default="exp_data.csv", type=str, help='The location the experiment data is saved')
