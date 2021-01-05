@@ -28,7 +28,7 @@ def binary_search_parser():
 	parser.add_argument('--model_save_dir', default="models", type=str, help='The location where models will be saved')
 	parser.add_argument('--delta_prop', default=0.1, type=float, help='The deltalt proprotion of delta for any range between gamma1 and gamma2.')
 	parser.add_argument('--x', default=0.7, type=float, help='Cusp maximum off set.')
-	parser.add_argument('--n', default=10, type=int, help='The dimension of the hidden layer.')
+	parser.add_argument('--n', default=1000, type=int, help='The dimension of the hidden layer.')
 	parser.add_argument('--no_early_stopping', default=False, action='store_true', help='Do not do early stopping.')
 	parser.add_argument('--posterior_alpha', default=0.9, type=float, help='Probability threshold for sufficient evidence when evaluating posterior. Between 0 and 1')
 	parser.add_argument('--test_size', default=0.2, type=float, help='The proportion of data used for tests. Between 0 and 1.')
