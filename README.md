@@ -29,6 +29,15 @@ The list of arguments can be seen at binary_search_networksbinary_search_parser.
 Deadline: December 12, 2020
 
 
+<<<<<<< HEAD
+-[x] Pick a Dataset that can be generalized -> Using titanic dataset courtesy of https://www.openml.org/d/40945
+-[] Implement linear search (O(N)) # need to train the model N times. 
+-[] Implement binary search (O(log(N))) # need to train the model N times. 
+-[] Determine trendline over two end points, determine the slope and determine side to get rid of
+-[] Find the maximum value in a partially sorted array
+-[x] Adapt the code so that user can pass n as input and run the entire pipeline (train + test + save)
+-[x] Plot the loss and accuracy given a neural net for our problem 
+=======
 - [x] Pick a Dataset that can be generalized -> Using titanic dataset courtesy of https://www.openml.org/d/40945
 - [x] Add another dataset (churn model is added).
 - [x] Implement linear search (O(N)) # need to train the model N times.
@@ -37,3 +46,4 @@ Deadline: December 12, 2020
 - [ ] Integrate the searches to pipeline.
 - [x] Adapt the code so that user can pass n as input and run the entire pipeline (train + test + save).
 - [x] Plot the loss and accuracy given a neural net for our problem.
+>>>>>>> a1b4dead406f8d65e91a5270570707fecb286961

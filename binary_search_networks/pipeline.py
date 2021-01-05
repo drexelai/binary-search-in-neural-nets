@@ -7,6 +7,8 @@ from binary_search_networks.test import test
 from binary_search_networks.util import parse_arguments
 import matplotlib.pyplot as plt
 
+import matplotlib.pyplot as plt
+
 # Run pipe and returns train accuracy and test accuracy
 def run_pipe(**args):
     data_func = get_data_churn_rate if args["use_churn_data"] else get_titanic_data

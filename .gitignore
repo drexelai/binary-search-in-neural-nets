@@ -1,5 +1,8 @@
+<<<<<<< HEAD
+=======
 models/
 *.csv
+>>>>>>> a1b4dead406f8d65e91a5270570707fecb286961
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
