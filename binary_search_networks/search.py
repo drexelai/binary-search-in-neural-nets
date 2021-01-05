@@ -29,14 +29,16 @@ def get_output_space(**args):
 	... accuracy: a list of recorded accuracies at each recorded ni
 	'''
 
-	accuracys = []
+	train_accuracies = []
+	test_accuracies = []
 	a = 1
 	b = args['n']
 	for ni in range(a, b + 1):
 		args['n'] = ni
 		train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1, model = run_pipe(**args)
-		accuracys.append(test_accuracy)
-	return a, b, accuracys
+		train_accuracies.append(train_accuracy)
+		test_accuracies.append(test_accuracy)
+	return a, b, train_accuracies, test_accuracies
 
 
 def plot_output_space(**args):
@@ -45,17 +47,31 @@ def plot_output_space(**args):
 	Returns: None
 	'''
 
+	# Plot train accuracies
+	plt.figure(0)
 	x = [i for i in range(args['a'], args['b'] + 1)]
-	y = args['accuracys']
+	y = args['train_accuracies']
 	
-	# TODO: not sure if t is the correct parameter to select where the splines are broken up
 	tck = interpolate.splrep(x, y, s=0, t=[np.argmax(y)])
 	ynew = interpolate.splev(x, tck, der=0)
 	plt.scatter(x=x, y=y)
 	plt.plot(x, ynew, '--')
 	plt.xlabel("Number of hidden layer units")
-	plt.ylabel("Accuracy")
-	plt.savefig(f"{args['fig_save_dir']}/{args['fig_save_name']}")
+	plt.ylabel("Train Accuracies")	
+
+	# Plot test accuracies
+	plt.figure(1)
+	x = [i for i in range(args['a'], args['b'] + 1)]
+	y = args['test_accuracies']
+	
+	tck = interpolate.splrep(x, y, s=0, t=[np.argmax(y)])
+	ynew = interpolate.splev(x, tck, der=0)
+	plt.scatter(x=x, y=y)
+	plt.plot(x, ynew, '--')
+	plt.xlabel("Number of hidden layer units")
+	plt.ylabel("Test Accuracies")
+	plt.show()
+	# plt.savefig(f"{args['fig_save_dir']}/{args['fig_save_name']}")
 
 
 def plot_slopes(mx, my, model):

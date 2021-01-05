@@ -14,16 +14,14 @@ def parse_arguments(args):
     args = vars(args)
     return args
 
-
-"""
-@param arr1 : Input array
-@param n    : Target element
-@param None
-linear_search in an array
-"""
-
-
 def linear_search(arr1, n):
+    """
+    @param arr1 : Input array
+    @param n    : Target element
+    @param None
+    linear_search in an array
+    """
+
     arr2 = []
     duplicate = False
     for i in range(len(arr1)):
@@ -37,6 +35,20 @@ def linear_search(arr1, n):
     else:
         print("n value not found")
 
+def find_max_element_index_and_value_in_array(arr):
+    """
+    @param: arr Input list (List)
+    @return: Index of the max element, Value of max element (Tuple)
+    """
+    if not arr: return
+    if len(arr) == 1: return 0, arr[0]
+    max_element = arr[0]
+    max_element_idx = 0
+    for i in range(len(arr)):
+        if max_element < arr[i]:
+            max_element = arr[i]
+            max_element_idx = i
+    return max_element_idx, max_element
 
 def generate_random_noise(amplitude, seed):
     random.seed(seed)

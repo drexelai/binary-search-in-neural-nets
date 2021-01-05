@@ -21,18 +21,12 @@ def get_titanic_data(**args):
 
 
 def get_data_churn_rate(**args):
-    # data = pd.read_csv('ChurnModel.csv')
-    # X, y = data[["TQMScore","Geography","ProductType",	"TotalCustomerYears","ContractDurationInMonths","RevenueInMillions","NumOfProducts"	,"RenewedBefore","IsActiveMember","MaxAttentionContractCost"
-    # ]], data['Exited']
-    # X = pd.get_dummies(X, columns=['Geography', 'ProductType'])
-    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=args['test_size'], random_state=42)
     dataset = pd.read_csv('ChurnModel.csv')
     X = dataset.iloc[:, 3:13].values
     #We store the Dependent value/predicted value in y by storing the 13th index in the variable y
     y = dataset.iloc[:, 13].values
     #Printing out the values of X --> Which contains the features
     #                           y --> Which contains the target variable
-
     # Encoding categorical data
     # Now we encode the string values in the features to numerical values
     # The only 2 values are Product Type and Region which need to converted into numerical data

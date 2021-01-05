@@ -5,6 +5,7 @@ from binary_search_networks.get_data import get_titanic_data, get_data_churn_rat
 from binary_search_networks.train import train
 from binary_search_networks.test import test
 from binary_search_networks.util import parse_arguments
+import matplotlib.pyplot as plt
 
 import matplotlib.pyplot as plt
 
@@ -40,7 +41,7 @@ def run_model(n):
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend(['Train', 'Test'], loc='best')
-    plt.savefig('results/accuracy', dpi=300)
+    plt.savefig('results/accuracy'+str(n), dpi=300)
     plt.close()
     
     return train_accuracy, val_accuracy, test_accuracy, area_under_curve, precision, recall, F1, model

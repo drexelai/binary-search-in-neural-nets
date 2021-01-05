@@ -10,28 +10,33 @@ from binary_search_networks.search import binary_search, get_output_space, plot_
 import sys
 def main(args):
 	args = parse_arguments(args)
-	a, b, accuracys = get_output_space(**args)
+	a, b, train_accuracies, test_accuracies = get_output_space(**args)
 	args['a'] = a
 	args['b'] = b
-	args['accuracys'] = accuracys
+	args['train_accuracies'] = train_accuracies
+	args['test_accuracies'] = test_accuracies
 	plot_output_space(**args)
 	exit(0)
 
-	differences = []
-	itererations = []
+	# differences = []
+	# itererations = []
 
-	for i in range(1000):
-		print(i)
-		difference, itereration = binary_search(**args)
-		print(difference, itereration)
-		differences.append(difference)
-		itererations.append(itereration)
+	# for i in range(1000):
+	# 	print(i)
+	# 	difference, itereration = binary_search(**args)
+	# 	print(difference, itereration)
+	# 	differences.append(difference)
+	# 	itererations.append(itereration)
 
-	print(differences)
-	print(itererations)
-	print(sum(differences) / len(differences))
-	print(sum(itererations) / len(itererations))
+	# print(differences)
+	# print(itererations)
+	# print(sum(differences) / len(differences))
+	# print(sum(itererations) / len(itererations))
 	#run_pipe(**args)
+
+	# binary_search(**args)
+
+	# run_pipe(**args)
 
 
 if __name__ == "__main__":
