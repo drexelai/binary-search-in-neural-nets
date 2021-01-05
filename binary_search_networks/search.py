@@ -52,9 +52,12 @@ def plot_output_space(**args):
 	x = [i for i in range(args['a'], args['b'] + 1)]
 	y = args['train_accuracies']
 	
-	tck = interpolate.splrep(x, y, s=0, t=[np.argmax(y)])
-	ynew = interpolate.splev(x, tck, der=0)
+	# tck = interpolate.splrep(x, y, s=0, t=[np.argmax(y)])
+	# ynew = interpolate.splev(x, tck, der=0)
 	plt.scatter(x=x, y=y)
+
+
+	x, ynew = fit_polynomial(x, y)
 	plt.plot(x, ynew, '--')
 	plt.xlabel("Number of hidden layer units")
 	plt.ylabel("Train Accuracies")	
@@ -64,15 +67,22 @@ def plot_output_space(**args):
 	x = [i for i in range(args['a'], args['b'] + 1)]
 	y = args['test_accuracies']
 	
-	tck = interpolate.splrep(x, y, s=0, t=[np.argmax(y)])
-	ynew = interpolate.splev(x, tck, der=0)
+	# tck = interpolate.splrep(x, y, s=0, t=[np.argmax(y)])
+	# ynew = interpolate.splev(x, tck, der=0)
 	plt.scatter(x=x, y=y)
+	x, ynew = fit_polynomial(x, y)
 	plt.plot(x, ynew, '--')
 	plt.xlabel("Number of hidden layer units")
 	plt.ylabel("Test Accuracies")
 	plt.show()
 	# plt.savefig(f"{args['fig_save_dir']}/{args['fig_save_name']}")
 
+def fit_polynomial(x,y):
+	# stacked_x = np.array([x,x+1,x-1])
+	coeffs = np.polyfit(x, y, 3) 
+	x2 = np.arange(min(x)-1, max(x)+1, .01) #use more points for a smoother plot
+	y2 = np.polyval(coeffs, x2) #Evaluates the polynomial for each x2 value
+	return x2, y2
 
 def plot_slopes(mx, my, model):
 	'''
